@@ -3,7 +3,7 @@ Installing all package dependencies:
     npm install
 ```
 
-Building to Android:
+Building to Android Simulator:
 ```
     npm run android
 ```
@@ -13,7 +13,10 @@ Running on Android:
     npm start
 ```
 
-It doesnt need "sudo";
+Building to a real Android device:
+```
+   sudo npm run build-android 
+```
 
 ________________
 How to open emulator without oppening Android Studio
