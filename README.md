@@ -1,3 +1,20 @@
+Installing all package dependencies:
+```
+    npm install
+```
+
+Building to Android:
+```
+    npm run android
+```
+
+Running on Android:
+```
+    npm start
+```
+
+It doesnt need "sudo";
+
 ________________
 How to open emulator without oppening Android Studio
 cd  ~/Android/Sdk/emulator && ./emulator -avd Pixel_API_28
@@ -18,6 +35,12 @@ There are two main steps to install (react-native-navigation library)[https://gi
 
 Note: it needs to be installed separetly on Android and on iOS;
 
+____________________
+Updating build Gradle from 2.0 to 3.0 version:
+Google Maps API for example uses 3.0 gradle version. Normally it will be already configured.
+
+In the case its not:
+https://itnext.io/install-react-native-maps-with-gradle-3-on-android-44f91a70a395
 ______________
 Troubleshotting
 
@@ -36,7 +59,7 @@ How to set JAVA_HOME to env variable:
 
 First, add it to bashrc file running the command below (maybe jre folder will be different on your computer):
 
-```echo 'export JAVA_HOME=/usr/local/android-studio/jre' >> ~/.bashrc```
+```echo 'export JAVA_HOME=/usr/local/android-studio/jre/bin' >> ~/.bashrc```
 
 In order to take effect on the current terminal, execute it:
 ```source /etc/profile/```
