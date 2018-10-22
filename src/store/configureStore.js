@@ -1,14 +1,14 @@
 import { createStore, combineReducers, compose } from 'redux';
 
-import placesReducer from './reducers/places';
+import pinReducer from './reducers/pin';
 
 const rootReducer = combineReducers({
-    places: placesReducer
+    pin: pinReducer
 });
 
 let composeEnhancers = compose;
 
-if (__DEV__){
+if (__DEV__) {
     composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 }
 

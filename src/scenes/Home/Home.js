@@ -1,14 +1,16 @@
 import React, { Component } from "react"
-import { View, Image, Button, Dimensions, StyleSheet } from "react-native"
+import { connect } from 'react-redux';
+import { View, TouchableOpacity, Text, Dimensions, StyleSheet } from "react-native"
 import MapView from "react-native-maps";
 import { Markers } from "../../mockedData/Markers"
 import { Pin } from "../../components/Pin/Pin";
 
-import imagePlaceholder from "../../mockedData/imageTest.jpg"
-import ImagePicker from "./ImagePickerWorkaround";
+import { fetchPin } from '../../store/actions/index';
 
 
-class AuthScreen extends Component {
+
+
+class HomeScreen extends Component {
 
     state = {
         focusedLocation: {
@@ -18,6 +20,12 @@ class AuthScreen extends Component {
             longitudeDelta: Dimensions.get("window").width / Dimensions.get("window").height * 0.0122,
         },
         pickedImage: { uri: null },
+    }
+
+    componentDidMount() {
+        console.log('DIDMOUNT')
+        this.props.fetchPin();
+
     }
 
     pickLocationHandler = (event) => {
@@ -53,39 +61,29 @@ class AuthScreen extends Component {
             err => { console.log(err); alert("Não conseguimos pegar a sua localização. Tente novamente") })
     }
 
-    pickImageHandler = () => {
-        ImagePicker.showImagePicker({
-            title: "Selecione uma imagem"
-        }, res => {
-            if (res.didCancel) { console.log("User canceled") }
-            else if (res.error) { console.log("Error:", res.error) }
-            else {
-                this.setState({
-                    pickedImage: { uri: res.uri }
-                })
-            }
+    addTerainHandler = () => {
+        this.props.navigator.push({
+            screen: "urbgard.TerrainFormScreen",
+            title: "Adicionar"
         })
     }
     render() {
-        console.log(this.state.pickedImage);
+        const { pin } = this.props;
         return (
             <View style={styles.container}>
-                {/*                 <MapView
+                <MapView
                     initialRegion={this.state.focusedLocation}
                     style={styles.map}
                     onPress={this.pickLocationHandler}
                     ref={ref => this.map = ref}
                 >
-                    {Markers.map((e, index) => {
+                    {pin.map((e, index) => {
                         return <Pin key={index} coordinate={e.coord} status={e.status}
                             title={e.title}
                             description={e.description} />
                     })}
-                </MapView> */}
-                <View style={styles.imageWrapper}>
-                    <Image style={styles.imageWrapper} source={this.state.pickedImage} />
-                </View>
-                <Button style={styles.button} title={"Adicionar"} onPress={this.pickImageHandler}></Button>
+                </MapView>
+
             </View>
 
         );
@@ -95,11 +93,15 @@ class AuthScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
+        alignItems: "center",
         width: "100%",
+        height: "100%",
+
     },
     map: {
-        width: "100%",
-        height: 300,
+        marginTop: 10,
+        width: "95%",
+        height: '100%',
     },
     button: {
         width: 50,
@@ -109,7 +111,31 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 300,
 
+    },
+    floatingButton: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderColor: 'rgba(0,0,0,0.2)',
+        width: "80%",
+        height: 40,
+        backgroundColor: '#990000',
+        marginTop: 30,
     }
 });
 
-export default AuthScreen;
+const mapStateToProps = (state) => {
+    return {
+        pin: state.pin.data,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchPin: () => { dispatch(fetchPin()) },
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+

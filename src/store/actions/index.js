@@ -1,1 +1,1 @@
-export { addPlace, deletePlace, selectPlace, deselectPlace } from "./places";
+export { fetchPin } from "./pin";

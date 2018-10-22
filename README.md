@@ -3,7 +3,7 @@ Installing all package dependencies:
     npm install
 ```
 
-Building to Android Simulator:
+Building to Android Simulator or device:
 ```
     npm run android
 ```
@@ -13,9 +13,23 @@ Running on Android:
     npm start
 ```
 
-Building to a real Android device:
+Building to a real Android device which will use it on production(.apk):
 ```
    sudo npm run build-android 
+```
+
+Developing on a real device:
+
+https://facebook.github.io/react-native/docs/running-on-device
+
+```
+adb shell input keyevent 82
+```
+
+```
+adb -s <device name> reverse tcp:8081 tcp:8081
+
+adb devices
 ```
 
 ________________
@@ -68,6 +82,14 @@ In order to take effect on the current terminal, execute it:
 ```source /etc/profile/```
 
 If it doesn't take effect instantly, reebot the system.
+
+3. adb devices shows a device without permissions:
+
+```
+sudo ./adb kill-server
+sudo ./adb start-server
+sudo ./adb devices
+```
 
 
 
