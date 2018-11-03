@@ -22,11 +22,13 @@ class ImagesSelector extends Component {
                 else if (res.error) { console.log("Error:", res.error) }
                 else {
                     this.setState(prevState => {
+                        console.log(res);
                         return {
                             pickedImageArr: [
                                 ...prevState.pickedImageArr,
                                 {
                                     uri: res.uri,
+                                    base64: res.data
                                 }
                             ]
                         }

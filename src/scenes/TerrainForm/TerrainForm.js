@@ -32,14 +32,15 @@ class TerrainFormScreen extends Component {
     }
 
     addTerainHandler = () => {
-        console.log(this.state);
+
         if (!this.validateForm()) return false;
 
+        console.log(this.state.pickedImageArr[0].base64);
     }
 
 
     validateForm = () => {
-        const { pickedImageArr, CivelStatus } = this.state;
+        const { pickedImageArr, civelStatus } = this.state;
 
         if (civelStatus === null) {
             alert('Escolha a situação do terreno')

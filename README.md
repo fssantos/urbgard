@@ -8,14 +8,14 @@ Building to Android Simulator or device:
     npm run android
 ```
 
-Running on Android:
+Running on Android
 ```
     npm start
 ```
 
 Building to a real Android device which will use it on production(.apk):
 ```
-   sudo npm run build-android 
+   npm run build-android 
 ```
 
 Developing on a real device:
