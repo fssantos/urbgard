@@ -3,42 +3,41 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const OPTION = {
-    PUBLIC: "PÚBLICO",
-    PRIVATE: "PRIVADO",
-    NOT_SURE: "NÃO SEI"
+    MEMBERS: "MEMBROS",
+    MENTORS: "MENTORES",
 }
 
-class CivilStatusSelector extends Component {
+class LookingForSelector extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedOption: null,
+            selectedOption: [],
         }
     }
 
 
     resolveSelected = (option) => {
-        const ret = option === this.state.selectedOption;
+        const ret = this.state.selectedOption.includes(option);
         return ret;
-
     }
 
     handleOnOptionPressed = (option) => {
         this.setState(prevState => {
-            if (option === prevState.selectedOption) {
-                return { selectedOption: null }
+            if (prevState.selectedOption.includes(option)) {
+                return { selectedOption: prevState.selectedOption.filter(e => e !== option) }
             }
-            return { selectedOption: option }
+            return {
+                selectedOption: [...prevState.selectedOption, option]
+            }
         }, () => { this.props.onChanges(this.state.selectedOption) })
     }
     render() {
         return (
             <View style={styles.container}>
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.PUBLIC)} text={OPTION.PUBLIC} option={OPTION.PUBLIC} />
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.PRIVATE)} text={OPTION.PRIVATE} option={OPTION.PRIVATE} />
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.NOT_SURE)} text={OPTION.NOT_SURE} option={OPTION.NOT_SURE} />
+                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.MEMBERS)} text={OPTION.MEMBERS} option={OPTION.MEMBERS} />
+                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.MENTORS)} text={OPTION.MENTORS} option={OPTION.MENTORS} />
             </View>
         )
     }
@@ -57,19 +56,21 @@ const Option = (props) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         width: "100%",
         height: "100%",
-        marginTop: 5,
-        marginBottom: 10
-        ,
+        marginTop: 15,
+        marginBottom: 10,
+        marginLeft: 50,
+        marginRight: 50,
     },
     optionButtonSelected: {
-        width: '25%',
-        height: 30,
+        width: '33%',
+        height: 35,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -79,8 +80,8 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
     optionButtonUnselected: {
-        width: '25%',
-        height: 30,
+        width: '33%',
+        height: 35,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -113,4 +114,4 @@ const styles = StyleSheet.create({
 
 
 
-export default CivilStatusSelector;
+export default LookingForSelector;

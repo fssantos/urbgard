@@ -6,13 +6,19 @@ import {
     Slider,
     TouchableOpacity,
     ImageBackground,
-    ScrollView
+    ScrollView,
+    TextInput,
 
 } from "react-native";
 
+import DatePicker from 'react-native-datepicker'
+
+
 import ImagesSelector from "../../components/ImagesSelector/ImagesSelector";
+import EntityTypeSelector from '../../components/EntityTypeSelector/EntityTypeSelector';
 import CivelStatusSelector from '../../components/CivilStatusSelector/CivilStatusSelector';
 import TerrainOwnerSelector from '../../components/TerrainOwnerSelector/TerrainOwnerSelector';
+import LookingForSelector from '../../components/LookingForSelector/LookingForSelector';
 
 import IconFeather from 'react-native-vector-icons/Feather';
 import IconMUCI from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,8 +30,11 @@ class TerrainFormScreen extends Component {
         ],
         civelStatus: null,
         terrainOwner: null,
+        entityType: null,
+        lookingFor: [],
         luminosity: 0.5,
         pollution: 0.5,
+        fundationDate: "01-01-2018",
     }
 
 
@@ -35,6 +44,12 @@ class TerrainFormScreen extends Component {
             pickedImageArr: newImageArr,
         })
 
+    }
+
+    handleEntityTypeChanges = (newEntityType) => {
+        this.setState({
+            entityType: newEntityType,
+        })
     }
 
     handleCivelStatusChanges = (newCivelStatus) => {
@@ -47,6 +62,12 @@ class TerrainFormScreen extends Component {
     handleTerrainOwnerChanges = (newTerrainOwner) => {
         this.setState({
             terrainOwner: newTerrainOwner,
+        })
+    }
+
+    handleLookingForChanges = (newLookingFor) => {
+        this.setState({
+            lookingFor: newLookingFor,
         })
     }
 
@@ -77,6 +98,42 @@ class TerrainFormScreen extends Component {
 
         return true;
     }
+    renderDataPicker() {
+        return (
+            <View style={{}}>
+                <Text style={styles.fieldTitle}>Fundação</Text>
+                <View style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginLeft: 35,
+                    marginTop: 15,
+                    alignItems: 'center',
+                    marginBottom: 15,
+                }}>
+                    <IconFeather name="calendar" size={20} color="grey" />
+                    <DatePicker
+                        style={{ width: 150, }}
+                        date={this.state.fundationDate}
+                        mode="date"
+                        format="DD-MM-YYYY"
+                        confirmBtnText="Confirmar"
+                        cancelBtnText="Cancelar"
+                        showIcon={false}
+                        customStyles={{
+                            dateInput: {
+                                marginLeft: 15,
+                                borderColor: '#D15D5F',
+                                borderRadius: 10,
+                                height: 35,
+                            }
+                            // ... You can check the source to find the other keys.
+                        }}
+                        onDateChange={(date) => { this.setState({ fundationDate: date }) }}
+                    />
+                </View>
+            </View >
+        )
+    }
 
     render() {
         return (
@@ -96,7 +153,10 @@ class TerrainFormScreen extends Component {
                             <View style={styles.galleryWrapper}>
                                 <ImagesSelector onChanges={this.handleImagesSelectorChanged} />
                             </View>
-                            <Text style={styles.fieldTitle}>Terreno</Text>
+                            <View style={[styles.civelStatusWrapper, { marginBottom: 15 }]}>
+                                <EntityTypeSelector onChanges={this.handleEntityTypeChanges} />
+                            </View>
+                            <Text style={styles.fieldTitle}>Espaço</Text>
                             <View style={styles.civelStatusWrapper}>
                                 <CivelStatusSelector onChanges={this.handleCivelStatusChanges} />
                             </View>
@@ -104,35 +164,80 @@ class TerrainFormScreen extends Component {
                             <View style={styles.civelStatusWrapper}>
                                 <TerrainOwnerSelector onChanges={this.handleTerrainOwnerChanges} />
                             </View>
-                            <Text style={styles.fieldTitle}>Luminosidade</Text>
-                            <View style={styles.sliderWrapper}>
-                                <IconFeather name="sun" size={20} color="grey" />
-                                <Slider
-                                    value={this.state.luminosity}
-                                    minimumTrackTintColor={"#F9A825"}
-                                    maximumTrackTintColor={"#F9A825"}
-                                    thumbTintColor={'#F57F17'}
-                                    style={{ width: 200 }} />
-                            </View>
-                            <Text style={styles.fieldTitle}>Poluição</Text>
-                            <View style={styles.sliderWrapper}>
-                                <IconMUCI name="car-side" size={20} color="grey" />
-                                <Slider
-                                    value={this.state.pollution}
-                                    minimumTrackTintColor={"#F9A825"}
-                                    maximumTrackTintColor={"#F9A825"}
-                                    thumbTintColor={'#F57F17'}
-                                    style={{ width: 200 }}
-                                />
-                            </View>
+                            {this.state.entityType === 'TERRENO' ?
+                                <View>
+                                    <Text style={styles.fieldTitle}>Luminosidade</Text>
+                                    <View style={styles.sliderWrapper}>
+                                        <IconFeather name="sun" size={20} color="grey" />
+                                        <Slider
+                                            thumbTintColor='#D15D5F'
+                                            value={this.state.luminosity}
+                                            minimumTrackTintColor={"#D15D5F"}
+                                            maximumTrackTintColor={"#D15D5F"}
+                                            style={{ width: 200 }} />
+                                    </View>
+                                    <Text style={styles.fieldTitle}>Poluição</Text>
+                                    <View style={styles.sliderWrapper}>
+                                        <IconMUCI name="car-side" size={20} color="grey" />
+                                        <Slider
+                                            thumbTintColor='#D15D5F'
+                                            value={this.state.pollution}
+                                            minimumTrackTintColor={"#D15D5F"}
+                                            maximumTrackTintColor={"#D15D5F"}
+                                            style={{ width: 200 }}
+                                        />
+                                    </View>
+                                </View>
+                                : null}
+                            {this.state.entityType === 'HORTA' ?
+                                <View>
+                                    <View style={styles.textInputWrapper}>
+                                        <TextInput
+                                            placeholder={'Nome da horta'}
+                                            style={styles.gardenNameInput}
+                                            underlineColorAndroid='red'
+                                        ></TextInput>
+                                    </View>
+                                    <View style={styles.textInputWrapper}>
+                                        <TextInput
+                                            placeholder={'Responsável'}
+                                            style={styles.gardenNameInput}
+                                            underlineColorAndroid='red'
+                                        ></TextInput>
+                                    </View>
+                                    {this.renderDataPicker()}
+                                    <View style={styles.textInputWrapper}>
+                                        <TextInput
+                                            placeholder={'WhatsApp para contato'}
+                                            keyboardType='phone-pad'
+                                            style={styles.gardenNameInput}
+                                            underlineColorAndroid='red'
+                                        ></TextInput>
+                                    </View>
+                                    <View style={styles.textInputWrapper}>
+                                        <TextInput
+                                            placeholder={'Número de Membros'}
+                                            keyboardType='numeric'
+                                            style={styles.gardenNameInput}
+                                            underlineColorAndroid='red'
+                                        ></TextInput>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.fieldTitle}>Buscando</Text>
+                                        <View style={styles.civelStatusWrapper}>
+                                            <LookingForSelector onChanges={this.handleLookingForChanges} />
+                                        </View>
+                                    </View>
+                                </View> :
+                                null}
                             <TouchableOpacity style={styles.floatingButton} onPress={this.addTerainHandler}>
-                                <Text style={{ color: "white", fontWeight: "bold" }}>CADASTRAR TERRENO</Text>
+                                <Text style={{ color: "white", fontWeight: "bold" }}>CADASTRAR</Text>
                             </TouchableOpacity>
                         </View>
                     </ScrollView>
                 </View>
 
-            </ImageBackground>
+            </ImageBackground >
         );
     }
 }
@@ -170,7 +275,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: "100%",
         height: "100%",
-        marginTop: 15,
+        marginTop: 10,
         marginBottom: 10,
         backgroundColor: 'white',
         borderRadius: 10,
@@ -199,20 +304,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         width: '100%',
         height: 50,
-        marginBottom: 5,
+        marginBottom: 10,
     },
     floatingButton: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         alignSelf: 'center',
-        borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0.2)',
-        width: "80%",
-        height: 35,
-        backgroundColor: '#990000',
+        width: "40%",
+        height: 30,
+        backgroundColor: '#92C551',
         marginTop: 10,
         marginBottom: 20,
+        borderRadius: 5,
     },
     sliderWrapper: {
         display: 'flex',
@@ -221,6 +325,19 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginLeft: 35,
         marginBottom: 25,
+    },
+    textInputWrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginLeft: 30,
+        marginBottom: 15,
+    },
+
+    gardenNameInput: {
+        width: '60%',
+        borderBottomColor: 'red',
+
     }
 
 });

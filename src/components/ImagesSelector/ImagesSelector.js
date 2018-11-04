@@ -87,12 +87,13 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
         marginLeft: 15,
+        marginBottom: 10,
     },
     selectedImageWrapper: {
         display: "flex",
         flexDirection: "row",
-        width: 100,
-        height: 100,
+        width: 110,
+        height: 110,
         margin: 0,
     },
     imageWrapper: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
         height: "70%",
         borderStyle: 'dashed',
         borderRadius: 5,
-        borderColor: 'blue',
+        borderColor: '#D15D5F',
         borderWidth: 0.5,
         alignSelf: 'center',
 
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         justifyContent: 'flex-start',
         fontSize: 20,
-        color: "blue"
+        color: '#D15D5F'
     },
 });
 

@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const OPTION = {
-    PUBLIC: "PÚBLICO",
-    PRIVATE: "PRIVADO",
-    NOT_SURE: "NÃO SEI"
+    TERRAIN: "TERRENO",
+    GARDEN: "HORTA",
+
 }
 
-class CivilStatusSelector extends Component {
+class EntityTypeSelector extends Component {
 
     constructor(props) {
         super(props);
@@ -27,18 +27,14 @@ class CivilStatusSelector extends Component {
 
     handleOnOptionPressed = (option) => {
         this.setState(prevState => {
-            if (option === prevState.selectedOption) {
-                return { selectedOption: null }
-            }
             return { selectedOption: option }
         }, () => { this.props.onChanges(this.state.selectedOption) })
     }
     render() {
         return (
             <View style={styles.container}>
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.PUBLIC)} text={OPTION.PUBLIC} option={OPTION.PUBLIC} />
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.PRIVATE)} text={OPTION.PRIVATE} option={OPTION.PRIVATE} />
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.NOT_SURE)} text={OPTION.NOT_SURE} option={OPTION.NOT_SURE} />
+                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.TERRAIN)} text={OPTION.TERRAIN} option={OPTION.TERRAIN} />
+                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.GARDEN)} text={OPTION.GARDEN} option={OPTION.GARDEN} />
             </View>
         )
     }
@@ -48,7 +44,7 @@ const Option = (props) => {
     return (
         <View
             style={props.isSelected ? styles.optionButtonSelected : styles.optionButtonUnselected}>
-            <Text onPress={(e) => { props.clicked(props.option) }} style={props.isSelected ? styles.optionTextSelected : styles.optionTextUnSelected}>{props.text}
+            <Text onPress={(e) => { props.clicked(props.option) }} style={props.isSelected ? styles.optionTextSelected : styles.optionTextUnselected}>{props.text}
             </Text>
         </View>
     )
@@ -57,19 +53,20 @@ const Option = (props) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        marginTop: 10,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
         width: "100%",
         height: "100%",
-        marginTop: 5,
-        marginBottom: 10
-        ,
+        marginLeft: 50,
+        marginRight: 50,
     },
     optionButtonSelected: {
-        width: '25%',
-        height: 30,
+        width: '40%',
+        height: 35,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -79,8 +76,8 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
     },
     optionButtonUnselected: {
-        width: '25%',
-        height: 30,
+        width: '40%',
+        height: 35,
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -95,17 +92,17 @@ const styles = StyleSheet.create({
         height: '50%',
         color: 'white',
         borderWidth: 0,
-        fontSize: 10,
+        fontSize: 12,
         textAlign: 'center',
         textAlignVertical: 'center'
     },
-    optionTextUnSelected: {
+    optionTextUnselected: {
         flex: 1,
         width: '100%',
         height: '50%',
         color: '#D15D5F',
         borderWidth: 0,
-        fontSize: 10,
+        fontSize: 12,
         textAlign: 'center',
         textAlignVertical: 'center'
     },
@@ -113,4 +110,4 @@ const styles = StyleSheet.create({
 
 
 
-export default CivilStatusSelector;
+export default EntityTypeSelector;

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 const OPTION = {
-    MINE: "MEU",
+    MINE: "EU",
     SOMEONE_I_KNOW: "CONHEÇO",
     NOT_SURE: "NÃO SEI"
 
@@ -15,7 +15,7 @@ class TerrainOwnerSelector extends Component {
         super(props);
 
         this.state = {
-            selectedOption: OPTION.MINE,
+            selectedOption: null,
         }
     }
 
@@ -52,7 +52,7 @@ const Option = (props) => {
     return (
         <View
             style={props.isSelected ? styles.optionButtonSelected : styles.optionButtonUnselected}>
-            <Text onPress={(e) => { props.clicked(props.option) }} style={styles.optionText}>{props.text}
+            <Text onPress={(e) => { props.clicked(props.option) }} style={props.isSelected ? styles.optionTextSelected : styles.optionTextUnselected}>{props.text}
             </Text>
         </View>
     )
@@ -67,6 +67,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: "100%",
         height: "100%",
+        marginTop: 5,
+        marginBottom: 10,
     },
     optionButtonSelected: {
         width: '25%',
@@ -74,7 +76,10 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#77D353',
+        backgroundColor: '#D15D5F',
+        borderRadius: 5,
+        borderColor: '#D15D5F',
+        borderWidth: 0.5,
     },
     optionButtonUnselected: {
         width: '25%',
@@ -82,13 +87,26 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#969FAA',
+        backgroundColor: 'white',
+        borderRadius: 5,
+        borderColor: '#D15D5F',
+        borderWidth: 0.5,
     },
-    optionText: {
+    optionTextSelected: {
         flex: 1,
         width: '100%',
         height: '50%',
-        color: '#EBECEF',
+        color: 'white',
+        borderWidth: 0,
+        fontSize: 10,
+        textAlign: 'center',
+        textAlignVertical: 'center'
+    },
+    optionTextUnselected: {
+        flex: 1,
+        width: '100%',
+        height: '50%',
+        color: '#D15D5F',
         borderWidth: 0,
         fontSize: 10,
         textAlign: 'center',
