@@ -41,7 +41,8 @@ Promise.all([
                 label: '', // tab label as appears under the icon in iOS (optional)
                 screen: 'urbgard.TerrainFormScreen', // unique ID registered with Navigation.registerScreen
                 icon: source[2],
-                title: 'Adicionar', // title of the screen as appears in the nav bar (optional)
+                title: '', // title of the screen as appears in the nav bar (optional)
+                navigationBarStyle: { navBarHidden: true },
             },
             {
                 label: '', // tab label as appears under the icon in iOS (optional)

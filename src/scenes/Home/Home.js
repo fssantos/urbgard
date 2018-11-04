@@ -5,6 +5,7 @@ import MapView from "react-native-maps";
 import { Markers } from "../../mockedData/Markers"
 import { Pin } from "../../components/Pin/Pin";
 
+
 import { fetchPin } from '../../store/actions/index';
 
 
@@ -70,6 +71,7 @@ class HomeScreen extends Component {
     render() {
         const { pin } = this.props;
         return (
+
             <View style={styles.container}>
                 <MapView
                     initialRegion={this.state.focusedLocation}
@@ -83,7 +85,6 @@ class HomeScreen extends Component {
                             description={e.description} />
                     })}
                 </MapView>
-
             </View>
 
         );

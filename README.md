@@ -1,3 +1,10 @@
+IMPORTANT: SPLASH SCREEN IS ONLY CONFIGURED TO ANDROID. This tutorial explains both Android and iOS:
+
+https://medium.com/@pqkluan/how-to-implement-splash-screen-in-react-native-navigation-ee2184a1a96
+
+
+
+
 Installing all package dependencies:
 ```
     npm install

@@ -5,7 +5,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 const OPTION = {
     PUBLIC: "PUBLICO",
     PRIVATE: "PRIVADO",
-    OWN: "SOU PROPRIETÁRIO",
     NOT_SURE: "NÃO SEI"
 }
 
@@ -15,7 +14,7 @@ class CivilStatusSelector extends Component {
         super(props);
 
         this.state = {
-            selectedOption: null,
+            selectedOption: OPTION.PUBLIC,
         }
     }
 
@@ -27,9 +26,6 @@ class CivilStatusSelector extends Component {
     }
 
     handleOnOptionPressed = (option) => {
-
-
-        console.log(this.state.selectedOption);
         this.setState(prevState => {
             if (option === prevState.selectedOption) {
                 return { selectedOption: null }
@@ -42,7 +38,6 @@ class CivilStatusSelector extends Component {
             <View style={styles.container}>
                 <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.PUBLIC)} text={OPTION.PUBLIC} option={OPTION.PUBLIC} />
                 <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.PRIVATE)} text={OPTION.PRIVATE} option={OPTION.PRIVATE} />
-                <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.OWN)} text={OPTION.OWN} option={OPTION.OWN} />
                 <Option clicked={this.handleOnOptionPressed} isSelected={this.resolveSelected(OPTION.NOT_SURE)} text={OPTION.NOT_SURE} option={OPTION.NOT_SURE} />
             </View>
         )
@@ -70,7 +65,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     optionButtonSelected: {
-        width: '20%',
+        width: '25%',
         height: 30,
         display: 'flex',
         justifyContent: 'space-between',
@@ -78,7 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#77D353',
     },
     optionButtonUnselected: {
-        width: '20%',
+        width: '25%',
         height: 30,
         display: 'flex',
         justifyContent: 'space-between',
