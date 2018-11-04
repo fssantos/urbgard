@@ -1,9 +1,19 @@
 import React, { Component } from "react"
 import { connect } from 'react-redux';
-import { View, TouchableOpacity, Text, Dimensions, StyleSheet } from "react-native"
+import {
+    View,
+    TouchableOpacity,
+    Text,
+    Dimensions,
+    StyleSheet,
+    Modal,
+    Image,
+} from "react-native"
 import MapView from "react-native-maps";
 import { Markers } from "../../mockedData/Markers"
 import { Pin } from "../../components/Pin/Pin";
+
+import imagePlaceHolder from '../../assets/terrain_placeholder.jpeg';
 
 
 import { fetchPin } from '../../store/actions/index';
@@ -21,10 +31,11 @@ class HomeScreen extends Component {
             longitudeDelta: Dimensions.get("window").width / Dimensions.get("window").height * 0.0122,
         },
         pickedImage: { uri: null },
+        isModalVisible: false,
+
     }
 
     componentDidMount() {
-        console.log('DIDMOUNT')
         this.props.fetchPin();
 
     }
@@ -71,7 +82,6 @@ class HomeScreen extends Component {
     render() {
         const { pin } = this.props;
         return (
-
             <View style={styles.container}>
                 <MapView
                     initialRegion={this.state.focusedLocation}
@@ -82,10 +92,36 @@ class HomeScreen extends Component {
                     {pin.map((e, index) => {
                         return <Pin key={index} coordinate={e.coord} status={e.status}
                             title={e.title}
-                            description={e.description} />
+                            description={e.description}
+                            onPress={() => { this.setState({ isModalVisible: true }) }}
+                            onRequestClose={() => { this.setState({ isModalVisible: false }) }} />
                     })}
                 </MapView>
-            </View>
+                <Modal
+                    style={{ flex: 1, borderRadius: 10, flexDirection: 'column', justifyContent: 'flex-end', alignSelf: 'flex-end' }}
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.isModalVisible}
+                    onRequestClose={() => {
+                        Alert.alert('Modal has been closed.');
+                    }}>
+                    <TouchableOpacity onPress={() => this.setState({ isModalVisible: false })} style={styles.bottomModal}>
+                        <View style={styles.modalContainer}>
+                            <View style={styles.modalImageWrapper}>
+                                <Image style={styles.imageCover} source={imagePlaceHolder} />
+                            </View>
+                            <View style={styles.modalInformationsWrapper}>
+                                <Text style={styles.modalInformationTexts}>Rua Fernandes Vieira, 605</Text>
+                                <Text style={styles.modalInformationTexts}>Status: aguardando membros</Text>
+                                <TouchableOpacity style={styles.modalButton} onPress={() => this.setState({ isModalVisible: false })}>
+                                    <Text style={{ color: "white", fontWeight: "bold" }}>TERRENO APTO</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <TouchableOpacity onPress={() => this.setState({ isModalVisible: false })} style={{ width: '100%', height: 80 }}></TouchableOpacity>
+                    </TouchableOpacity>
+                </Modal>
+            </View >
 
         );
     }
@@ -95,35 +131,68 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         alignItems: "center",
+        justifyContent: 'center',
         width: "100%",
         height: "100%",
 
     },
     map: {
         marginTop: 10,
-        width: "95%",
+        width: "100%",
         height: '100%',
     },
-    button: {
-        width: 50,
-        height: 300,
+    bottomModal: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
     },
-    imageWrapper: {
-        width: "100%",
-        height: 300,
+    modalContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        height: 110,
+        width: '95%',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    modalImageWrapper: {
+        width: '35%',
+        height: '100%',
+        display: 'flex',
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 15,
+        marginRight: 10,
 
     },
-    floatingButton: {
+    imageCover: {
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover',
+        borderRadius: 10,
+    },
+    modalInformationsWrapper: {
+        width: '65%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    modalInformationTexts: {
+        marginBottom: 5,
+    },
+    modalButton: {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         borderWidth: 1,
+        borderRadius: 5,
         borderColor: 'rgba(0,0,0,0.2)',
         width: "80%",
-        height: 40,
-        backgroundColor: '#990000',
-        marginTop: 30,
-    }
+        height: 25,
+        backgroundColor: '#D55056',
+        marginTop: 10,
+        marginBottom: 0,
+    },
 });
 
 const mapStateToProps = (state) => {

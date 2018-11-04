@@ -126,7 +126,7 @@ class TerrainFormScreen extends Component {
                                 />
                             </View>
                             <TouchableOpacity style={styles.floatingButton} onPress={this.addTerainHandler}>
-                                <Text style={{ color: "white", fontWeight: "bold" }}>COMEÇAR HORTA AQUI</Text>
+                                <Text style={{ color: "white", fontWeight: "bold" }}>CADASTRAR TERRENO</Text>
                             </TouchableOpacity>
                         </View>
                     </ScrollView>
